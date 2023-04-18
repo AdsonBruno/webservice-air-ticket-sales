@@ -1,4 +1,4 @@
-export interface Ticket {
+export interface FlightSearch {
   travelDate: string;
   from: string;
   to: string;
