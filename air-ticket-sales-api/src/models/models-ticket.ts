@@ -1,7 +1,7 @@
 export interface FlightSearch {
   travelDate: string;
-  from: string;
-  to: string;
+  DepartingFrom: string;
+  ArrivingAt: string;
   numberOfPassengers: number;
-  class: string;
+  seatType: string;
 }
