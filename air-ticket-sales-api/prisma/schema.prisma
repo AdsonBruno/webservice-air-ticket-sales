@@ -23,11 +23,11 @@ model Airport {
 
 model Flights {
   flight_id String @id
-  airline String @unique
-  origin String @unique
-  destination String @unique
-  departure_time DateTime
-  arrival_time DateTime
+  airline String 
+  origin String 
+  destination String 
+  departure_time String
+  arrival_time String
   seats_available Int
 
   @@map("flights")
@@ -51,3 +51,4 @@ model Reservations {
 
   @@map("reservations")
 }
+
