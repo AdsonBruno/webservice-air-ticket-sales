@@ -1,24 +1,34 @@
-import { FlightSearch } from '../../models/models-ticket';
+import { ResponseTicket } from '../../models/models-response';
 import { HttpResponse } from '../protocols';
 import { IGetFlightsController, IGetFlightsRepository } from './protocols';
 
 export class GetFlightsController implements IGetFlightsController {
   constructor(private readonly getFlightsRepository: IGetFlightsRepository) {}
 
+  async handle() {
+    try {
+      const flights = await this.getFlightsRepository.listAllFlights();
+
+      return {
+        statusCode: 200,
+        body: flights,
+      };
+    } catch (error) {
+      return {
+        statusCode: 500,
+        body: 'Algo deu errado!',
+      };
+    }
+  }
+
   async findFlight(
-    travelDate: string,
-    departingFrom: string,
-    arrivingAt: string,
-    numberOfPassengers: number,
-    seatType: string
-  ): Promise<HttpResponse<FlightSearch[]>> {
+    departingFrom: string
+    // arrivingAt: string
+  ): Promise<HttpResponse<ResponseTicket[]>> {
     try {
       const flights = await this.getFlightsRepository.listFlights(
-        travelDate,
-        departingFrom,
-        arrivingAt,
-        numberOfPassengers,
-        seatType
+        departingFrom
+        // arrivingAt
       );
 
       return {
