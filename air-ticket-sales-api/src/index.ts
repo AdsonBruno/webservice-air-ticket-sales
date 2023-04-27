@@ -2,22 +2,21 @@ import express from 'express';
 import { config } from 'dotenv';
 import { PrismaGetFlightsRepository } from './repositories/get-flights/prisma-get-flights';
 import { GetFlightsController } from './controllers/get-flights/get-flights';
+import { PrismaConnector } from './database/prisma';
 
-config();
+const main = async () => {
+  config();
 
-const app = express();
-const port = process.env.PORT;
+  const app = express();
 
-app.get(
-  '/flights/:travelDate/:departingFrom/:arrivingAt/:numberOfPassengers/:seatType',
-  async (req, res) => {
-    const {
-      travelDate,
-      departingFrom,
-      arrivingAt,
-      numberOfPassengers,
-      seatType,
-    } = req.params;
+  app.use(express.json());
+
+  await PrismaConnector.connect();
+
+  app.get('/flights/:departingFrom', async (req, res) => {
+    const { departingFrom } = req.params;
+
+    console.log(departingFrom);
 
     const prismaGetFlightsRepository = new PrismaGetFlightsRepository();
 
@@ -26,15 +25,26 @@ app.get(
     );
 
     const { body, statusCode } = await getFlightsController.findFlight(
-      travelDate,
-      departingFrom,
-      arrivingAt,
-      Number(numberOfPassengers),
-      seatType
+      departingFrom
     );
 
     res.send(body).status(statusCode);
-  }
-);
+  });
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+  app.get('/flights', async (req, res) => {
+    const prismaGetFlightsRepository = new PrismaGetFlightsRepository();
+
+    const getFlightsController = new GetFlightsController(
+      prismaGetFlightsRepository
+    );
+
+    const { body, statusCode } = await getFlightsController.handle();
+
+    res.send(body).status(statusCode);
+  });
+
+  const port = process.env.PORT;
+  app.listen(port, () => console.log(`Listening on port ${port}`));
+};
+
+main();
