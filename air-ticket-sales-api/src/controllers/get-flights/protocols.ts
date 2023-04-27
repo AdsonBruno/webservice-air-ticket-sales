@@ -1,4 +1,4 @@
-import { FlightSearch } from '../../models/models-ticket';
+import { ResponseTicket } from '../../models/models-response';
 import { HttpResponse } from '../protocols';
 
 export interface IGetFlightsController {
@@ -8,15 +8,14 @@ export interface IGetFlightsController {
     arrivingAt: string,
     numberOfPassengers: number,
     seatType: string
-  ): Promise<HttpResponse<FlightSearch[]>>;
+  ): Promise<HttpResponse<ResponseTicket[]>>;
 }
 
 export interface IGetFlightsRepository {
   listFlights(
-    travelDate: string,
     departingFrom: string,
-    arrivingAt: string,
-    numberOfPassengers: number,
-    seatType: string
-  ): Promise<FlightSearch[]>;
+    arrivingAt?: string
+  ): Promise<ResponseTicket[]>;
+
+  listAllFlights(): Promise<ResponseTicket[]>;
 }
