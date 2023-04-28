@@ -22,13 +22,13 @@ export class GetFlightsController implements IGetFlightsController {
   }
 
   async findFlight(
-    departingFrom: string
-    // arrivingAt: string
+    departingFrom: string,
+    arrivingAt?: string
   ): Promise<HttpResponse<ResponseTicket[]>> {
     try {
       const flights = await this.getFlightsRepository.listFlights(
-        departingFrom
-        // arrivingAt
+        departingFrom,
+        arrivingAt
       );
 
       return {
