@@ -11,12 +11,11 @@ app.listen(port, () => {
 
 app.get('/flights', async (req, res) => {
   try {
-    const response = await axios.get('http://localhost:3000/flights');
+    const response = await axios.get('http://localhost:3000/flights/');
     const flights = response.data;
     console.log(flights);
 
-    // res.status(200).render('flights', { flights });
-    res.json(flights);
+    res.status(200).json(flights);
   } catch (error) {
     console.log(error);
 
@@ -45,7 +44,6 @@ app.get('/flights/:origin/:destination', async (req, res) => {
     const { origin, destination } = req.params;
 
     const response = await axios.get(`http://localhost:3000/flights/${origin}/${destination}`);
-    // console.log(origin)
     const flights = await response.data;
     console.log(flights);
 
