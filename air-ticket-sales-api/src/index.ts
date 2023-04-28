@@ -31,6 +31,25 @@ const main = async () => {
     res.send(body).status(statusCode);
   });
 
+  app.get('/flights/:departingFrom/:arrivingAt', async (req, res) => {
+    const { departingFrom, arrivingAt } = req.params;
+
+    console.log(departingFrom);
+
+    const prismaGetFlightsRepository = new PrismaGetFlightsRepository();
+
+    const getFlightsController = new GetFlightsController(
+      prismaGetFlightsRepository
+    );
+
+    const { body, statusCode } = await getFlightsController.findFlight(
+      departingFrom,
+      arrivingAt
+    );
+
+    res.send(body).status(statusCode);
+  });
+
   app.get('/flights', async (req, res) => {
     const prismaGetFlightsRepository = new PrismaGetFlightsRepository();
 
