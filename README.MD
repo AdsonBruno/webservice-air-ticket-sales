@@ -5,7 +5,6 @@ Este projeto da disciplina de _Sistemas Distribuídos_ do curso de _Ciência da 
 - Professor: Tércio de Morais
 - Alunos:
   - Adson Bruno
-  - Vanessa Fernandes
 
 ## Requisitos
 
